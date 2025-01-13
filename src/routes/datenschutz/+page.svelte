@@ -45,17 +45,17 @@
 
 	<h2 class="h2">2. Hosting</h2>
 	<p>Wir hosten die Inhalte unserer Website bei folgendem Anbieter:</p>
-	<h3 class="h3">IONOS</h3>
+	<h3 class="h3">netcup</h3>
 	<p>
-		Anbieter ist die IONOS SE, Elgendorfer Str. 57, 56410 Montabaur (nachfolgend IONOS). Wenn Sie
-		unsere Website besuchen, erfasst IONOS verschiedene Logfiles inklusive Ihrer IP-Adressen.
-		Details entnehmen Sie der Datenschutzerklärung von IONOS:
+		Anbieter ist die netcup GmbH, Daimlerstr. 25, 76185 Karlsruhe (nachfolgend netcup). Wenn Sie
+		unsere Website besuchen, erfasst netcup verschiedene Logfiles inklusive Ihrer IP-Adressen.
+		Details entnehmen Sie der Datenschutzerklärung von netcup:
 	</p>
-	<a style="color: blue" href="https://www.ionos.de/terms-gtc/terms-privacy"
-		>https://www.ionos.de/terms-gtc/terms-privacy</a
+	<a style="color: blue" href="https://www.netcup.com/de/kontakt/datenschutzerklaerung"
+		>https://www.netcup.com/de/kontakt/datenschutzerklaerung</a
 	>.
 	<p>
-		Die Verwendung von IONOS erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein
+		Die Verwendung von netcup erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein
 		berechtigtes Interesse an einer möglichst zuverlässigen Darstellung unserer Website. Sofern eine
 		entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf
 		Grundlage von Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG, soweit die Einwilligung die
