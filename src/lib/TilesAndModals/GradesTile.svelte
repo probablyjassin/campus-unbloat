@@ -84,28 +84,32 @@
 		</div>
 	{/if}
 
-	<PieChart {stats} />
-	<div class="flex mt-4">
-		<ul class="conic-list list text-sm w-full">
-			{#if stats.successful > 0}
-				<ChartLabel
-					label="Erfolg"
-					value={stats.successful}
-					{total}
-					color="rgb(var(--color-secondary-500))"
-				/>
-			{/if}
-			{#if stats.unsuccessful > 0}
-				<ChartLabel
-					label="5.0 Abfahrt"
-					value={stats.unsuccessful}
-					{total}
-					color="rgb(var(--color-primary-500))"
-				/>
-			{/if}
-			{#if stats.unassessed > 0}
-				<ChartLabel label="Ausstehend" value={stats.unassessed} {total} color="#c1c1c1" />
-			{/if}
-		</ul>
-	</div>
+	{#if !(stats.successful || stats.unsuccessful || stats.unassessed)}
+		<p class="my-8">Es gibt noch keine Einträge.</p>
+	{:else}
+		<PieChart {stats} />
+		<div class="flex mt-4">
+			<ul class="conic-list list text-sm w-full">
+				{#if stats.successful > 0}
+					<ChartLabel
+						label="Erfolg"
+						value={stats.successful}
+						{total}
+						color="rgb(var(--color-secondary-500))"
+					/>
+				{/if}
+				{#if stats.unsuccessful > 0}
+					<ChartLabel
+						label="5.0 Abfahrt"
+						value={stats.unsuccessful}
+						{total}
+						color="rgb(var(--color-primary-500))"
+					/>
+				{/if}
+				{#if stats.unassessed > 0}
+					<ChartLabel label="Ausstehend" value={stats.unassessed} {total} color="#c1c1c1" />
+				{/if}
+			</ul>
+		</div>
+	{/if}
 </DashboardTile>

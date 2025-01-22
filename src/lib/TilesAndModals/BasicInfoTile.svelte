@@ -48,7 +48,7 @@
 <DashboardTile
 	title="Deine Infos"
 	clickable={false}
-	ready={Boolean(basicUserData && fachsemester && ects)}
+	ready={Boolean(basicUserData && fachsemester != undefined && ects != undefined)}
 >
 	<div class="w-full space-y-2 h-full max-h-44 min-h-32 flex flex-col justify-between">
 		<div class="flex-grow" />
@@ -67,7 +67,7 @@
 			{/if}
 		{/if}
 		<div class="flex-grow" />
-		{#if fachsemester && ects}
+		{#if fachsemester != undefined && ects != undefined}
 			<div class="flex space-x-2">
 				<div class="card-transparent-50 w-full p-2 space-y-2 justify-center flex flex-col">
 					<small id="fachsem">Fachsemester: {fachsemester}</small>
