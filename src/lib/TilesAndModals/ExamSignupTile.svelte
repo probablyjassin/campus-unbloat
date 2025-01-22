@@ -62,7 +62,7 @@
 	}
 </script>
 
-<DashboardTile title="Prüfungen" on:click={openModal} ready={Boolean(signupOptions)}>
+<DashboardTile title="Prüfungen" on:click={openModal} ready={signupOptions != null}>
 	<div class="flex flex-row items-center">
 		{#if signUppable != null}
 			<div class="flex flex-col">
