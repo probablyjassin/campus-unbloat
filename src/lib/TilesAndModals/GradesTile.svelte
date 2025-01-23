@@ -84,10 +84,11 @@
 		</div>
 	{/if}
 
+	<PieChart {stats} />
 	{#if !(stats.successful || stats.unsuccessful || stats.unassessed)}
-		<p class="my-8">Es gibt noch keine Einträge.</p>
+		<p class="mt-3">Es gibt noch keine Einträge.</p>
 	{:else}
-		<PieChart {stats} />
+		Es gibt noch keine Einträge.
 		<div class="flex mt-4">
 			<ul class="conic-list list text-sm w-full">
 				{#if stats.successful > 0}

@@ -44,7 +44,7 @@
 					<svelte:fragment slot="content">
 						<ul class="list-disc text-left ml-4">
 							{#each timeline[section.key] as event}
-								<li class="text-xs">{event.description}</li>
+								<li class="text-xs select-all">{event.description}</li>
 							{/each}
 						</ul>
 					</svelte:fragment>
