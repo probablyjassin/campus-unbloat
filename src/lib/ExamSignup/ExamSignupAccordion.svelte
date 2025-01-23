@@ -30,17 +30,23 @@
 	let examDetails: CampusExamDetails | null = null;
 
 	let popupOpen = false;
-	const popupExamDetails: PopupSettings = {
-		state(event) {
-			// dirty workaround for race condition
-			setTimeout(() => {
-				popupOpen = event.state;
-			}, 100);
-		},
-		event: 'click',
-		target: 'popupExamDetails',
-		placement: 'top'
-	};
+
+	// separate popups to work around some bug in a dependency
+	function getPopupExDetails(qual: string): PopupSettings {
+		const setting: PopupSettings = {
+			state(event) {
+				// dirty workaround for race condition
+				setTimeout(() => {
+					popupOpen = event.state;
+				}, 100);
+			},
+			event: 'click',
+			target: 'popupExamDetails-' + qual,
+			placement: 'top'
+		};
+
+		return setting;
+	}
 
 	async function getExamDetails(internal_metadata?: CampusExamMetadata) {
 		if (popupOpen) return;
@@ -114,9 +120,16 @@
 	}
 </script>
 
-<div class="card p-2 w-80 shadow-2xl" data-popup="popupExamDetails">
-	<ExamDetailsPopup bind:examDetails />
-</div>
+{#if data && data.length != 0}
+	{#each data as thing}
+		<div
+			class="card p-2 w-80 shadow-2xl"
+			data-popup="popupExamDetails-{thing.name + thing.exam_date}"
+		>
+			<ExamDetailsPopup bind:examDetails />
+		</div>
+	{/each}
+{/if}
 
 <Accordion>
 	{#if !data}
@@ -195,7 +208,7 @@
 								<div class="flex justify-center">
 									<button
 										class="btn-icon variant-ghost-secondary flex-shrink-0"
-										use:popup={popupExamDetails}
+										use:popup={getPopupExDetails(signup.name + signup.exam_date)}
 										on:click={() => {
 											getExamDetails(signup.internal_metadata);
 										}}
