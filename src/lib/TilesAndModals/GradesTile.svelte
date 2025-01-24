@@ -88,7 +88,6 @@
 	{#if !(stats.successful || stats.unsuccessful || stats.unassessed)}
 		<p class="mt-3">Es gibt noch keine Einträge.</p>
 	{:else}
-		Es gibt noch keine Einträge.
 		<div class="flex mt-4">
 			<ul class="conic-list list text-sm w-full">
 				{#if stats.successful > 0}
