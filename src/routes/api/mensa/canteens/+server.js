@@ -1,19 +1,5 @@
-import { env } from '$env/dynamic/private';
+import { handleApiRequest } from '$lib/server/handleMensaApiRequest';
 
 export async function GET() {
-	try {
-		const response = await fetch(`${env.MENSA_API_URL}/canteens`);
-
-		if (!response.ok) {
-			throw new Error();
-		}
-
-		return response;
-	} catch (error) {
-		console.error('Error at canteens:');
-		if (error instanceof Error) {
-			console.error(error.message);
-		}
-		return new Response('Mensalisten-Abfrage ist fehlgeschlagen', { status: 500 });
-	}
+	return handleApiRequest('canteens', 'Fehler bei der Mensalisten-Anfrage');
 }

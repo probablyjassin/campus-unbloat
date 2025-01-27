@@ -1,20 +1,7 @@
-import { env } from '$env/dynamic/private';
+import { handleApiRequest } from '$lib/server/handleMensaApiRequest';
 
 export async function GET({ params }) {
-	try {
-		const { canteen, date } = params;
-		const response = await fetch(`${env.MENSA_API_URL}/canteens/${canteen}/days/${date}`);
+	const { canteen, date } = params;
 
-		if (!response.ok) {
-			throw new Error();
-		}
-
-		return response;
-	} catch (error) {
-		console.error('Error at get_day_at_mensa:');
-		if (error instanceof Error) {
-			console.error(error.message);
-		}
-		return new Response('Mensa-Abfrage ist fehlgeschlagen', { status: 500 });
-	}
+	return handleApiRequest(`canteens/${canteen}/days/${date}`, 'Fehler bei der Mensa-Anfrage');
 }
