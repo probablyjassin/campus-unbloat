@@ -25,11 +25,11 @@
 	</div>
 {:else}
 	<h4 class="h4 text-center">
-		Insgesamt: {gradeStats.one +
+		{gradeStats.one +
 			gradeStats.two +
 			gradeStats.three +
 			gradeStats.four +
-			gradeStats.ronmodus}
+			gradeStats.ronmodus} Ergebnisse
 	</h4>
 
 	<div class="flex justify-evenly h-48 space-x-8 px-8 mt-2 pt-1 bg-secondary-500/10 rounded-2xl">

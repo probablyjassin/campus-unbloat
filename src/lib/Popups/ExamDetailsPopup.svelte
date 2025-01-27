@@ -68,7 +68,7 @@
 				>
 				<span class="flex-auto">
 					<dt class="font-bold">{examDetails.ev_instructor}</dt>
-					<dd class="text-sm opacity-50">Prüfer</dd>
+					<dd class="text-sm opacity-50">Prüfer:in</dd>
 				</span>
 			</div>
 		{/if}
