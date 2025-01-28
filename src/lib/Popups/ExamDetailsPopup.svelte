@@ -7,7 +7,7 @@
 </script>
 
 {#if !examDetails}
-	<div class="flex h-56 items-center justify-center">
+	<div class="flex h-44 items-center justify-center">
 		<ProgressRadial
 			width="w-20"
 			stroke={80}
