@@ -19,11 +19,9 @@
 
 	async function splitGroups(mealGroups: MealGroup[]) {
 		if (!isInsideDashboardModal) return;
-		let now = performance.now();
 
 		let heights: number[] = getMealgroupHeights(mealGroups);
 		[column1, column2] = balanceElementsDP(mealGroups, heights);
-		console.warn('took', performance.now() - now);
 	}
 
 	// chatgpt turned up the heat with this one
@@ -106,7 +104,6 @@
 
 			const height = container.clientHeight + 16 + 42; // +(2*8 padding) + (24 accordion title + 2*8padding) + 2px between items
 			heights.push(height);
-			console.log(mealGroup.meal_type, height);
 			container.innerHTML = '';
 		}
 
