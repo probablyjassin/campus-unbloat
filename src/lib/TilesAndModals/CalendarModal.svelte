@@ -101,7 +101,15 @@
 		? ''
 		: ` (${getAltDayString(selectedDate)})`}"
 >
-	<div class="radio-group-container w-full flex justify-center pb-2">
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<div
+		on:keydown={(e) => {
+			if (['ArrowLeft', 'ArrowRight'].includes(e.key)) {
+				e.preventDefault();
+			}
+		}}
+		class="radio-group-container w-full flex justify-center pb-2"
+	>
 		<RadioGroup
 			bind:group={view}
 			active="variant-filled-primary"

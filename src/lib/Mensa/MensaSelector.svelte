@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher, tick } from 'svelte';
+	import { createEventDispatcher, getContext, tick } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 
@@ -18,6 +18,7 @@
 
 	const dispatch = createEventDispatcher();
 	const modalStore = getModalStore();
+	const isInsideDashboardModal = getContext('dashboardModal') ?? false;
 
 	let openmensaModalComponent: ModalComponent;
 	let openMensaModal: ModalSettings;
@@ -92,6 +93,15 @@
 		dispatch('selectChanged', selectedDate);
 	}
 </script>
+
+<svelte:window
+	on:keydown={(e) => {
+		if (isInsideDashboardModal) {
+			if (e.key == 'ArrowLeft') handleDaySelection(false);
+			else if (e.key == 'ArrowRight') handleDaySelection(true);
+		}
+	}}
+/>
 
 <div class="flex mb-2 space-x-1 items-center w-full">
 	<button

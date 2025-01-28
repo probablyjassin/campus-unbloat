@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, getContext } from 'svelte';
 
 	import TileInteractiveElementWrapper from '$lib/TilesAndModals/TileInteractiveElementWrapper.svelte';
 	import {
@@ -14,6 +14,7 @@
 	export let weeklySkibbers: boolean = false;
 
 	const dispatch = createEventDispatcher();
+	const isInsideDashboardModal = getContext('dashboardModal') ?? false;
 
 	function dateIsInInterval(week: boolean, selectedDate: Date): boolean {
 		if (week) {
@@ -46,6 +47,15 @@
 		dispatch('dateChanged', selectedDate);
 	}
 </script>
+
+<svelte:window
+	on:keydown={(e) => {
+		if (isInsideDashboardModal) {
+			if (e.key == 'ArrowLeft') handleDaySelection(false);
+			else if (e.key == 'ArrowRight') handleDaySelection(true);
+		}
+	}}
+/>
 
 <!-- -mb-2 hack for calendar having a bit of blank space -->
 <div

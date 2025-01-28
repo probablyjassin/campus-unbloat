@@ -38,6 +38,6 @@
 	</svelte:fragment>
 
 	{#if mealGroups}
-		<MealView twoColumn={true} bind:expandedMealCategories {mealGroups} />
+		<MealView bind:expandedMealCategories {mealGroups} />
 	{/if}
 </DashboardModal>

@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { onDestroy, onMount, type SvelteComponent } from 'svelte';
+	import { onDestroy, onMount, setContext, type SvelteComponent } from 'svelte';
 
 	export let title: string;
 	export let parent: SvelteComponent;
 	export let dynamicwidth: boolean = false;
+
+	setContext('dashboardModal', true);
 
 	const htmlElement = document.documentElement;
 	const themeColorMeta = document.querySelector('meta[name="theme-color"]');
