@@ -11,10 +11,7 @@
 	export let expandedMealCategories: Writable<Array<string>>;
 	export let mealGroups: Array<MealGroup>;
 
-	const container = document.createElement('div');
-	container.style.position = 'absolute';
-	container.style.visibility = 'hidden';
-	document.body.appendChild(container);
+	const dispatch = createEventDispatcher();
 
 	let column1: MealGroup[];
 	let column2: MealGroup[];
@@ -22,12 +19,84 @@
 
 	async function splitGroups(mealGroups: MealGroup[]) {
 		if (!twoColumn) return;
+		let now = performance.now();
 
-		column1 = [];
-		column2 = [];
+		let heights: number[] = getMealgroupHeights(mealGroups);
+		[column1, column2] = balanceElementsDP(mealGroups, heights);
+		console.warn('took', performance.now() - now);
+	}
 
-		let splitContainerHeight1: number = 0;
-		let splitContainerHeight2: number = 0;
+	// chatgpt turned up the heat with this one
+	function balanceElementsDP(
+		mealGroups: MealGroup[],
+		heights: number[]
+	): [MealGroup[], MealGroup[]] {
+		const totalSum = heights.reduce((acc, h) => acc + h, 0);
+		const target = Math.floor(totalSum / 2);
+
+		// DP table to track which sums are possible
+		const dp = new Array(target + 1).fill(false);
+		dp[0] = true;
+
+		// Track which elements contribute to a sum
+		const backtrack: Map<number, Set<number>> = new Map();
+		for (let s = 0; s <= target; s++) {
+			backtrack.set(s, new Set());
+		}
+
+		for (let i = 0; i < heights.length; i++) {
+			for (let s = target; s >= heights[i]; s--) {
+				if (dp[s - heights[i]]) {
+					dp[s] = true;
+					backtrack.get(s)?.add(i);
+				}
+			}
+		}
+
+		// Find the closest sum to target
+		let bestSum = target;
+		while (!dp[bestSum]) bestSum--;
+
+		// Retrieve indices of elements forming bestSum
+		const used = new Set<number>();
+		let sum = bestSum;
+
+		while (sum > 0) {
+			let chosenIndex = -1;
+
+			// Select the smallest index that hasn't been used yet
+			for (let index of backtrack.get(sum) ?? []) {
+				if (!used.has(index)) {
+					chosenIndex = index;
+					break;
+				}
+			}
+
+			if (chosenIndex === -1) break; // Failsafe exit
+
+			used.add(chosenIndex);
+			sum -= heights[chosenIndex];
+		}
+
+		// Split elements into two groups
+		let col1: MealGroup[] = [],
+			col2: MealGroup[] = [];
+		for (let i = 0; i < mealGroups.length; i++) {
+			if (used.has(i)) col1.push(mealGroups[i]);
+			else col2.push(mealGroups[i]);
+		}
+
+		return [col1, col2];
+	}
+
+	const container = document.createElement('div');
+	container.style.position = 'absolute';
+	container.style.visibility = 'hidden';
+	container.style.width = '266px';
+	document.body.appendChild(container);
+
+	function getMealgroupHeights(mealGroups: MealGroup[]): number[] {
+		let heights: number[] = [];
 
 		for (const mealGroup of mealGroups) {
 			new MealGroupContainer({
@@ -35,30 +104,34 @@
 				target: container
 			});
 
-			if (!splitContainerHeight1 || splitContainerHeight1 <= splitContainerHeight2) {
-				column1.push(mealGroup);
-				splitContainerHeight1 += container.clientHeight;
-			} else {
-				column2.push(mealGroup);
-				splitContainerHeight2 += container.clientHeight;
-			}
-
+			const height = container.clientHeight + 16 + 42; // +(2*8 padding) + (24 accordion title + 2*8padding) + 2px between items
+			heights.push(height);
+			console.log(mealGroup.meal_type, height);
 			container.innerHTML = '';
 		}
-	}
 
-	const dispatch = createEventDispatcher();
+		return heights;
+	}
 </script>
 
 <!-- hacky -->
 <MediaQuery query="(min-width: 640px)" let:matches>
 	{#if mealGroups.length === 0}
 		<p class="pt-2 text-center">Keine Gerichte verfügbar.</p>
-	{:else if twoColumn && matches && mealGroups.length > 1}
-		<div class="grid grid-cols-2 gap-3">
-			<MealViewAccordion alwaysExpanded={true} mealGroups={column1} {expandedMealCategories} />
-			<MealViewAccordion alwaysExpanded={true} mealGroups={column2} {expandedMealCategories} />
-		</div>
+	{:else if twoColumn && matches}
+		{#if mealGroups.length > 1}
+			<div class="grid grid-cols-2 gap-3">
+				<MealViewAccordion alwaysExpanded={true} mealGroups={column1} {expandedMealCategories} />
+				<MealViewAccordion alwaysExpanded={true} mealGroups={column2} {expandedMealCategories} />
+			</div>
+		{:else}
+			<MealViewAccordion
+				alwaysExpanded={true}
+				{mealGroups}
+				{expandedMealCategories}
+				on:mealGroupClicked={() => dispatch('mealGroupClicked')}
+			/>
+		{/if}
 	{:else}
 		<MealViewAccordion
 			{mealGroups}
