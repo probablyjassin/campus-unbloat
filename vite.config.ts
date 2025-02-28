@@ -76,7 +76,6 @@ export default defineConfig({
 							'graduation-cap',
 							'bug'
 						],
-						regular: ['_'],
 						brands: ['github']
 					},
 					'src/lib/fonts/webfonts'
