@@ -58,5 +58,8 @@
 		"svelte-media-queries": "^1.6.2",
 		"svelte-portal": "^2.2.1",
 		"vanilla-cookieconsent": "^3.0.1"
+	},
+	"overrides": {
+		"cookie": "^0.7.0"
 	}
 }

@@ -61,18 +61,6 @@
 	let myGrade: number;
 	let popupOpen = false;
 
-	const popupGradeStats: PopupSettings = {
-		state(event) {
-			// dirty workaround for race condition
-			setTimeout(() => {
-				popupOpen = event.state;
-			}, 100);
-		},
-		event: 'click',
-		target: 'popupGradeStats',
-		placement: 'top'
-	};
-
 	async function getGradeStats(internal_metadata?: CampusGradeMetadata) {
 		if (popupOpen) return;
 		gradeStats = null;
@@ -102,6 +90,23 @@
 
 		return Math.round(float);
 	}
+
+	// separate popups to work around some bug in a dependency
+	function getPopupGradeStats(qual: string): PopupSettings {
+		const setting: PopupSettings = {
+			state(event) {
+				// dirty workaround for race condition
+				setTimeout(() => {
+					popupOpen = event.state;
+				}, 100);
+			},
+			event: 'click',
+			target: 'popupGradeStats-' + qual,
+			placement: 'top'
+		};
+
+		return setting;
+	}
 </script>
 
 <svelte:window
@@ -116,9 +121,17 @@
 	<div class="arrow bg-surface-100-800-token" />
 </div>
 
-<div class="card p-2 w-80 shadow-2xl z-50" data-popup="popupGradeStats">
-	<GradeStatsPopup bind:gradeStats bind:myGrade />
-</div>
+{#each grades as gr}
+	{#each gr.subgrades as sg}
+		<div
+			class="card p-2 w-80 shadow-2xl z-50"
+			data-popup="popupGradeStats-{sg.name + sg.bekanntgabe}"
+		>
+			<GradeStatsPopup bind:gradeStats bind:myGrade />
+		</div>
+	{/each}
+{/each}
+
 <DashboardModal bind:parent title="Noten">
 	<svelte:fragment slot="header">
 		<div class="flex space-x-2">
@@ -206,7 +219,7 @@
 													myGrade = getRoundedGrade(subgrade.grade);
 													getGradeStats(subgrade.internal_metadata);
 												}}
-												use:popup={popupGradeStats}
+												use:popup={getPopupGradeStats(subgrade.name + subgrade.bekanntgabe)}
 												class="btn rounded-md size-8 variant-filled btn-icon flex-shrink-0"
 											>
 												<i class="fa-solid fa-chart-column"></i>
