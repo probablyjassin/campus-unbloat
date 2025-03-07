@@ -154,11 +154,7 @@
 			{#each filteredGrades as grade, idx}
 				<AccordionItem
 					open={idx == accordionOpenIndex}
-					on:toggle={(state) => {
-						if (state.detail.open) {
-							accordionOpenIndex = idx;
-						}
-					}}
+					on:toggle={(state) => (accordionOpenIndex = state.detail.open ? idx : -1)}
 				>
 					<svelte:fragment slot="lead">
 						<span
