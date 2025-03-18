@@ -162,7 +162,7 @@
 
 	<div class="flex flex-col space-y-2 w-full">
 		{#if !$showMealsInTile}
-			<p class="pt-4 my-auto text-md font-bold">Klicken, um alle Mensen anzuzeigen.</p>
+			<p class="pt-4 my-auto">Klicken, um Gerichte anzuzeigen.</p>
 		{/if}
 		<TileInteractiveElementWrapper>
 			{#if $showMealsInTile && mealGroups}

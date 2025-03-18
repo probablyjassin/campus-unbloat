@@ -117,7 +117,7 @@
 
 <div class="card p-4 shadow-xl z-50" data-popup="popupAvgInfo">
 	<p class="font-bold">Gewichteter Durchschnitt</p>
-	<p class="text-center text-xs">Summe(Note ⋅ CPs) / Gesamt-CPs</p>
+	<p class="text-center text-xs">∑(Note ⋅ ECTS) / Gesamt-ECTS</p>
 	<div class="arrow bg-surface-100-800-token" />
 </div>
 

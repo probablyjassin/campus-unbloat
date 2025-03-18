@@ -82,7 +82,7 @@
 		}}
 		class="{dateIsInInterval(weeklySkibbers, selectedDate)
 			? 'opacity-40 pointer-events-none'
-			: ''} dont-open-modal btn-icon flex-shrink-0 bg-surface-200-700-token border border-surface-400-500-token transition-transform h-[42px] w-1/3"
+			: ''} dont-open-modal btn-icon flex-shrink-0 bg-surface-200-700-token hover:brightness-105 border border-surface-400-500-token transition-transform h-[42px] w-1/3"
 	>
 		<p>{weeklySkibbers ? 'Diese Woche' : 'Heute'}</p>
 	</button>
