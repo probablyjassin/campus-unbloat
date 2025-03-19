@@ -129,7 +129,9 @@
 </script>
 
 <DashboardTile
-	title="Mensa{dateIsToday(selectedDate) ? '' : ` (${getAltDayString(selectedDate)})`}"
+	title="Mensa{!$showMealsInTile || dateIsToday(selectedDate)
+		? ''
+		: ` (${getAltDayString(selectedDate)})`}"
 	on:click={() => {
 		modalStore.trigger(modal);
 	}}
