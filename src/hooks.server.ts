@@ -1,28 +1,40 @@
 import type { Handle } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
+import { building } from '$app/environment';
 
-if (!(env.CD_API_URL && env.MENSA_API_URL)) {
-	console.error('One or more environment variables are missing:\n\nCD_API_URL\nMENSA_API_URL\n\n');
-	process.exit(1);
+if (!building) {
+	check_env_api_urls();
+	check_env_impressum();
 }
 
-// optional in dev mode to not waste time
-if (process.env.NODE_ENV === 'production') {
-	if (
-		!(
-			publicEnv.PUBLIC_IMPRESS_FULLNAME &&
-			publicEnv.PUBLIC_IMPRESS_STRASSE_HAUSNR &&
-			publicEnv.PUBLIC_IMPRESS_PLZ_ORT &&
-			publicEnv.PUBLIC_IMPRESS_TELEFON &&
-			publicEnv.PUBLIC_IMPRESS_EMAIL
-		)
-	) {
+function check_env_api_urls() {
+	if (!(env.CD_API_URL && env.MENSA_API_URL)) {
 		console.error(
-			'One or more environment variables are missing:\n\nPUBLIC_IMPRESS_FULLNAME\nPUBLIC_IMPRESS_STRASSE_HAUSNR\nPUBLIC_IMPRESS_PLZ_ORT\nPUBLIC_IMPRESS_TELEFON\nPUBLIC_IMPRESS_EMAIL'
+			'One or more environment variables are missing:\n\nCD_API_URL\nMENSA_API_URL\n\n'
 		);
-		console.warn('Optional: PUBLIC_IMPRESS_ADDRZUSATZ');
 		process.exit(1);
+	}
+}
+
+function check_env_impressum() {
+	// optional in dev mode to not waste time
+	if (process.env.NODE_ENV === 'production') {
+		if (
+			!(
+				publicEnv.PUBLIC_IMPRESS_FULLNAME &&
+				publicEnv.PUBLIC_IMPRESS_STRASSE_HAUSNR &&
+				publicEnv.PUBLIC_IMPRESS_PLZ_ORT &&
+				publicEnv.PUBLIC_IMPRESS_TELEFON &&
+				publicEnv.PUBLIC_IMPRESS_EMAIL
+			)
+		) {
+			console.error(
+				'One or more environment variables are missing:\n\nPUBLIC_IMPRESS_FULLNAME\nPUBLIC_IMPRESS_STRASSE_HAUSNR\nPUBLIC_IMPRESS_PLZ_ORT\nPUBLIC_IMPRESS_TELEFON\nPUBLIC_IMPRESS_EMAIL'
+			);
+			console.warn('Optional: PUBLIC_IMPRESS_ADDRZUSATZ');
+			process.exit(1);
+		}
 	}
 }
 
